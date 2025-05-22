@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Alert</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="container">
+    <h2>Pick Quantities</h2>
+
+    <label for="dropdown1">Cacao:</label>
+    <select id="dropdown1" class="styled-select">
+      <option value="1-10">1-10</option>
+      <option value="10-20">10-20</option>
+      <option value="20-30">20-30</option>
+    </select>
+
+    <label for="dropdown2">Beanstalk:</label>
+    <select id="dropdown2" class="styled-select">
+      <option value="1-10">1-10</option>
+      <option value="10-20">10-20</option>
+      <option value="20-30">20-30</option>
+    </select>
+
+    <label for="dropdown3">Pepper:</label>
+    <select id="dropdown3" class="styled-select">
+      <option value="1-10">1-10</option>
+      <option value="10-20">10-20</option>
+      <option value="20-30">20-30</option>
+    </select>
+
+    <button id="sendButton">Send Message</button>
+  </div>
+
+  <script>
+    const sendButton = document.getElementById('sendButton');
+    sendButton.addEventListener('click', () => {
+      const val1 = document.getElementById('dropdown1').value;
+      const val2 = document.getElementById('dropdown2').value;
+      const val3 = document.getElementById('dropdown3').value;
+
+      fetch('/send-message', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ val1, val2, val3 }),
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          alert(`Sent: ${val1}, ${val2}, ${val3}`);
+        } else {
+          alert('Failed to send message.');
+        }
+      })
+      .catch(err => alert('Error: ' + err));
+    });
+  </script>
+</body>
+</html>

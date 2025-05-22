@@ -10,7 +10,7 @@ const CHANNEL_ID = 'UClpYaV73nQDaJf-Vx3CYqVA';
 const DISCORD_CHANNEL_ID = '829323584227770392';
 
 const client = new Client({
-  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages],
+  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages,  GatewayIntentBits.MessageContent],
 });
 
 // To store last video ID and avoid duplicates

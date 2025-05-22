@@ -3,6 +3,7 @@ const { Client, Collection, GatewayIntentBits } = require('discord.js');
 const fetch = require('node-fetch');
 const fs = require('node:fs');
 const path = require('node:path');
+const db = require('./firebase');
 
 const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY;
 const CHANNEL_ID = 'UClpYaV73nQDaJf-Vx3CYqVA';
@@ -83,6 +84,30 @@ client.on('interactionCreate', async interaction => {
   } catch (err) {
     console.error(err);
     await interaction.reply({ content: 'There was an error executing that command!', ephemeral: true });
+  }
+});
+
+client.on('messageCreate', async (message) => {
+  if (message.author.bot) return;
+
+  const log = {
+    messageId: message.id,
+    content: message.content,
+    authorId: message.author.id,
+    authorTag: message.author.tag,
+    channelId: message.channel.id,
+    channelName: message.channel.name,
+    guildId: message.guild.id,
+    guildName: message.guild.name,
+    timestamp: message.createdAt,
+    edited: false
+  };
+
+  try {
+    await db.collection('messages').doc(message.id).set(log);
+    console.log('Message logged to Firestore.');
+  } catch (err) {
+    console.error('Error logging message:', err);
   }
 });
 

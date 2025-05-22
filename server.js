@@ -7,7 +7,7 @@ app.use(express.static('public'));
 app.use(express.json());
 
 app.post('/send-message', async (req, res) => {
-  const channelId = '829323584227770392'; // change this!
+  const channelId = '829323584227770392';
   const { val1, val2, val3 } = req.body;
 
   try {
@@ -34,7 +34,7 @@ app.post('/send-message', async (req, res) => {
 });
 
 // ⬇️ MAKE SURE THIS IS HERE
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`🌐 Web server running on http://localhost:${PORT}`);
 });
